@@ -824,12 +824,12 @@ define('apps/background',['exports', 'module', 'moment', 'jquery', 'angular', 'l
             console.log('starting backgound app at:', (0, _moment2['default'])());
             _MediaAccessManager['default'].init(document);
             _ExtensionProvider['default'].init(_EventBus['default']);
-            /*
-            ExtensionProvider.getExtension().disable();
-            setTimeout(function(){
-                ExtensionProvider.getExtension().enable();
-            }, 5000);
-            */
+
+            //
+            _ExtensionProvider['default'].getExtension().disable();
+            setTimeout(function () {
+                _ExtensionProvider['default'].getExtension().enable();
+            }, 2000);
         }
     };
     module.exports = app;

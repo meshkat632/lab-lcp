@@ -12,12 +12,13 @@ let app = {
         console.log('starting backgound app at:', moment());
         MediaAccessManager.init(document);
         ExtensionProvider.init(EventBus);
-        /*
+
+        //
         ExtensionProvider.getExtension().disable();
         setTimeout(function(){
             ExtensionProvider.getExtension().enable();
-        }, 5000);
-        */
+        }, 2000);
+
     }
 };
 export default app;
