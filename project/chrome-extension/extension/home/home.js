@@ -19,6 +19,10 @@ require.config({
         }
     }
 });
-require(['apps/home'], function(home){
+require(['apps/home','jquery'], function(home, $){
     home.start();
+    chrome.extension.getBackgroundPage().getCurrentUrl(function(url){
+        console.log('url:',url);
+        $('#data').val(url);
+    });
 });

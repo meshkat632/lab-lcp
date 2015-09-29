@@ -1,23 +1,21 @@
 {
   "name": "lcp chrome extension",
-  "version": "0.1",
-  "description": ".",
+  "description": "",
+  "version": "2.0",
   "icons": { "16": "assets/research-icon.png", "48": "assets/research-icon.png", "128": "assets/research-icon.png" },
+  "permissions": [
+    "activeTab","tabs","background"
+  ],
   "background": {
-  	"persistent": true,
-    "page": "background/background.html"
+    "scripts": ["background/background.js"],
+    //"page": "background/background.html",
+    "persistent": true
   },
+  //"options_page": "options/options.html",
   "browser_action": {
-    "default_title": "default",
+    "default_title": "rating page",
     "default_icon": "assets/research-icon.png",
     "default_popup": "home/home.html"
-
   },
-  "permissions": [ "notifications", "tabs", "http://*/*", "https://*/*" ],
-  "manifest_version": 2,
-  "options_page": "options/options.html",
-
- "content_security_policy": "script-src 'self'; object-src 'self'",
- 
- "permissions": [ "history", "storage" , "notifications", "activeTab", "tabs","<all_urls>" , "background"]
+  "manifest_version": 2
 }

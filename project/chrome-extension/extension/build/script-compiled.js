@@ -825,11 +825,20 @@ define('apps/background',['exports', 'module', 'moment', 'jquery', 'angular', 'l
             _MediaAccessManager['default'].init(document);
             _ExtensionProvider['default'].init(_EventBus['default']);
 
-            //
-            _ExtensionProvider['default'].getExtension().disable();
-            setTimeout(function () {
-                _ExtensionProvider['default'].getExtension().enable();
+            /*
+            ExtensionProvider.getExtension().disable();
+            setTimeout(function(){
+                ExtensionProvider.getExtension().enable();
             }, 2000);
+            */
+
+            chrome.browserAction.onClicked.addListener(function (tab) {
+                // No tabs or host permissions needed!
+                console.log('Turning ' + tab.url + ' red!');
+                chrome.tabs.executeScript({
+                    code: 'document.body.style.backgroundColor="red"'
+                });
+            });
         }
     };
     module.exports = app;

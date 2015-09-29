@@ -19,6 +19,7 @@
     "time-grunt": "^1.2.1"
   },
   "dependencies": {
+    "bower": "^1.5.3",
     "fs": "0.0.2",
     "grunt-jslint": "^1.1.14",
     "grunt-sync": "^0.4.1",
