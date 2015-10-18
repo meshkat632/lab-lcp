@@ -1,4 +1,4 @@
-require.config({
+/*require.config({
     baseUrl: '../',
     paths: {
         "angular":'vendors/angular/angular',
@@ -20,5 +20,6 @@ require.config({
     }
 });
 require(['apps/userSettings'], function(userSettings){
-    userSettings.start();
-});
+    userSettings.start();										
+});*/
+// require undefined, why do we need this code?
