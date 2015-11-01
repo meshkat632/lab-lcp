@@ -1,11 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <script src="jquery.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+    <script src="moment.js"></script>
+    <script src="../lcp-lib/sha512.js"></script>
+    <script src="../lcp-lib/LearningContext.js" type="text/javascript"></script>
+    <script src="../lcp-lib/LearningContextUtil.js" type="text/javascript"></script>
+    <script src="../lcp-lib/TokenManager.js" type="text/javascript"></script>
+    <script src="../lcp-lib/ContextData.js" type="text/javascript"></script>
+    <script src="../lcp-lib/Entity.js" type="text/javascript"></script>
+    <script src="../lcp-lib/Event.js" type="text/javascript"></script>
+    <script src="../lcp-lib/angular.min.js" type="text/javascript"></script>
+
+
     <!--
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="../vendors/requirejs/require.js"></script>
+    <script src="../build/script-compiled.js"></script>
     -->
+
     <style>
         body{
             padding-top: 13px;
@@ -17,13 +31,19 @@
         }
     </style>
 </head>
-<body>
+<body ng-controller="homeController">
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">Panel title</h3>
+                    <!--
+                    <h3 class="panel-title">topic:{{topic}} </h3>
+                    <h3 class="panel-title">data:{{data}} </h3>
+                    <h3 class="panel-title">rating:{{rating}} </h3>
+                    <h3 class="panel-title">mimetype:{{mimetype}} </h3>
+                    -->
                 </div>
                 <div class="panel-body">
                     <form class="form-horizontal" role="form">
@@ -31,20 +51,20 @@
                             <label for="inputEmail3" class="col-sm-3 control-label">Topic</label>
                             <div class="col-sm-9">
                                 <input type="text" class="form-control" id="inputEmail3"
-                                       placeholder="Topic" id="topic"/>
+                                       placeholder="Topic" id="topic" ng-model="topic"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="inputPassword3" class="col-sm-3 control-label">Data</label>
                             <div class="col-sm-9">
                                 <input id='data' type="data" class="form-control" id="inputPassword3"
-                                       placeholder="data" id="data"/>
+                                       placeholder="data" id="data" ng-model="data"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="inputPassword3" class="col-sm-3 control-label">Ratings</label>
                             <div class="col-sm-9">
-                                <select class="form-control" id="rating">
+                                <select class="form-control" id="rating" ng-model="rating">
                                     <option>Excellent</option>
                                     <option>Very Good</option>
                                     <option>Good</option>
@@ -54,8 +74,19 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-3 control-label">Type</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" id="mimetype" ng-model="mimetype">
+                                    <option>webpage</option>
+                                    <option>pdf</option>
+                                    <option>video</option>
+                                    <option>text</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-                                <button type="submit" id="homeButtonId">Submit</button>
+                                <button type="submit" id="homeButtonId" ng-click="share()">Share</button>
                             </div>
                         </div>
                     </form>
@@ -65,13 +96,5 @@
     </div>
 </div>
 </body>
-<script src="../../../lcp-lib/sha512.js"></script> <!--TODO: If we want to use this, we need a local reference -->
-<script src="../../../lcp-lib/LearningContext.js" type="text/javascript"></script>
-<script src="../../../lcp-lib/LearningContextUtil.js" type="text/javascript"></script>
-<script src="../../../lcp-lib/TokenManager.js" type="text/javascript"></script>
-<script src="../../../lcp-lib/ContextData.js" type="text/javascript"></script>
-<script src="../../../lcp-lib/Entity.js" type="text/javascript"></script>
-<script src="../../../lcp-lib/Event.js" type="text/javascript"></script>
-<script src="../../../lcp-lib/angular.min.js" type="text/javascript"></script>
-<script src="home.js"></script>
+<script src="home_new.js"></script>
 </html>
