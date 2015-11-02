@@ -17,8 +17,7 @@
     "default_icon": "assets/research-icon.png",
     "default_popup": "home/home.html"
   },
-  "permissions": [
-    "http://api.learning-context.de"
-  ],
+  "permissions":["tabs","<all_urls>"],
+  "web_accessible_resources": ["options/options.html", "options/*"],
   "manifest_version": 2
 }

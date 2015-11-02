@@ -1,20 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
 var homeButtonId = document.getElementById('homeButtonId');
 homeButtonId.addEventListener('click', function(){
-	var version = "4";
-	var username = localStorage["userName"];
-	var password = localStorage["userPassword"];
-	var appId = "58";
-	var appSecret = "5vzgj870p5rizch61j89vro6if8yexl6pj11ckphzi4pkb86x5";
-	var callbackURL = "";
-	var refreshToken = "1";
-  var lc = new LearningContext("http://api.learning-context.de",
-    version,
-    appId, 
-    appSecret,
-	callbackURL,
-	refreshToken
-    );
 		
 	var topic = document.getElementById("topic");
 	var data = document.getElementById("data");
