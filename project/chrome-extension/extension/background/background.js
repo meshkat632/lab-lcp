@@ -1,29 +1,3 @@
-/*
-require.config({
-    baseUrl: '../',
-    paths: {
-        "angular":'vendors/angular/angular',
-        "jquery": 'vendors/jquery/dist/jquery',
-        "moment": 'vendors/moment/min/moment-with-locales',
-        "noty":   'vendors/noty/js/noty/packaged/jquery.noty.packaged'
-    },
-    shim: {
-        'angular': {
-            exports: 'angular'
-        },
-        jquery:{
-            exports: 'jquery'
-        },
-        noty:{
-            deps: ['jquery'],
-            exports: 'noty'
-        }
-    }
-});
-require(['apps/background'], function(background){
-    background.start();
-});
-*/
 function getCurrentUrl(callback){
     console.log('testRequest');
 
@@ -36,9 +10,16 @@ function getCurrentUrl(callback){
             console.log(_tab);
             chrome.tabs.get(_tab.id, function(tab){
                 console.log('tab',tab.url, callback);
-                callback(tab.url);
+                if(tab.url != undefined)
+                    callback(tab.url, currentTopic);
             });
         });
 
     });
 }
+var currentTopic = 'UNKNOWN';
+function setCurrentTopic(topic){
+    console.log('currentTopic:',topic);
+    currentTopic = topic;
+}
+
