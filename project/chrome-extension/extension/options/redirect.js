@@ -7,8 +7,8 @@ window.onload = function(){
 		var parts = s[i].split('=');
 		window.$_GET[unescape(parts[0])] = unescape(parts[1]);
 	}
-	//alert(parts); Parts contains the refreshToken
-	localStorage["refreshToken"] = parts;
+	//alert(parts); Parts contains: refreshToken
+	localStorage["refreshToken"] = parts[1];
 	var lc = localStorage["lc"];
 	document.getElementById('usernameTextField').value = lc.value;
 }

@@ -28,24 +28,23 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
         console.log('rating:',rating);
         console.log('type:',type);
         ////////////////////////
-        window.$_GET = {};
-        $_GET['rt'] = 'c12a27089c571947bd8e01a05ce8d1310e48d29f';
 
         var apiUrl = 'http://api.learning-context.de';
         var apiVersion = 4;
         var appUrl = window.location;
-        // appId and appSecret of Meshkat
-        var appId = 61;
-        var appSecret = 'rirecpainw2ju2nmr9vi8uvab3bf5j0pq6i6ysfdo031nffh9i';
+        // appId and appSecret of Options
+        var appId = localStorage["appId"];
+        var appSecret = localStorage["appSecret"];
+		var refreshToken = localStorage["refreshToken"];
 
-        if($_GET['rt'] === undefined){
+        if(refreshToken === undefined){
             //$('body').append("<p>rt: No Token found</p><hr>");
-            alert('no refresh token');
+            alert('no refresh token, please login via options first');
             console.log('no refresh token');
             return;
         }else {
             //$('body').append("<p>rt:"+window.$_GET['rt']+"</p><hr>");
-            console.log('refresh token:['+window.$_GET['rt']+']');
+            console.log('refresh token:['+ refreshToken +']');
         }
 
 
@@ -66,12 +65,20 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
         var json = "[" + event.toJson() + "]";
         console.log('json:',json);
 
+			var s = window.location.search.substring(1).split('&');
+	if(!s.length) return;
+	window.$_GET = {};
+	for(var i  = 0; i < s.length; i++) {
+		var parts = s[i].split('=');
+		window.$_GET[unescape(parts[0])] = unescape(parts[1]);
+	}
+		
         var lc = new LearningContext(apiUrl,
             apiVersion,
             appId,
             appSecret,
             appUrl,
-            $_GET['rt']);
+            refreshToken);
         console.log('events update result:',lc.post("events", json));
 
         var resulteventsAsString = lc.get("events", '{"model":"COMPLETE"}');
