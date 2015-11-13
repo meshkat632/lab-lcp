@@ -20,7 +20,7 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
         mimeTypes["Video"] = "media/video";
         mimeTypes["Audio"] = "media/audio";
         mimeTypes["Text"] = "text/plain";
-        mimeTypes["Webpage"] = "text/html"
+        mimeTypes["Webpage"] = "text/html";
 
         return mimeTypes[type];
     }
