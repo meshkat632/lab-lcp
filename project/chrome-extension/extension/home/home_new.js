@@ -16,11 +16,11 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
     function getMimeType(type) {
         
         var mimeTypes = {};
-        mimeTypes["pdf"] = "application/pdf";
-        mimeTypes["video"] = "media/video";
-        mimeTypes["audio"] = "media/audio";
-        mimeTypes["text"] = "text/plain";
-        mimeTypes["webpage"] = "text/html"
+        mimeTypes["PDF"] = "application/pdf";
+        mimeTypes["Video"] = "media/video";
+        mimeTypes["Audio"] = "media/audio";
+        mimeTypes["Text"] = "text/plain";
+        mimeTypes["Webpage"] = "text/html"
 
         return mimeTypes[type];
     }
@@ -34,6 +34,7 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
         var url  = $scope.url;
         var rating = $scope.rating;
         var type = getMimeType($scope.mimetype);
+
 
         console.log('data:',data);
         console.log('topic:',topic);
