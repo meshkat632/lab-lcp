@@ -13,6 +13,18 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
     });
     */
 
+    function getMimeType(type) {
+        
+        var mimeTypes = {};
+        mimeTypes["pdf"] = "application/pdf";
+        mimeTypes["video"] = "media/video";
+        mimeTypes["audio"] = "media/audio";
+        mimeTypes["text"] = "text/plain";
+        mimeTypes["webpage"] = "text/html"
+
+        return mimeTypes[type];
+    }
+
 
     $scope.share = function(){
 
@@ -21,7 +33,7 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
         var topic = $scope.topic;
         var url  = $scope.url;
         var rating = $scope.rating;
-        var type = $scope.mimetype;
+        var type = getMimeType($scope.mimetype);
 
         console.log('data:',data);
         console.log('topic:',topic);
@@ -82,17 +94,17 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
             appSecret,
             appUrl,
             refreshToken);
-        console.log('events update result:',lc.post("events", json));
+        // console.log('events update result:',lc.post("events", json));
 
         var resulteventsAsString = lc.get("events", '{"model":"COMPLETE"}');
         var resultevents = JSON.parse(resulteventsAsString);
 
-        console.log('get events',resultevents, typeof resultevents);
-        console.log('get events',resultevents.events);
+        // console.log('get events',resultevents, typeof resultevents);
+        // console.log('get events',resultevents.events);
 
-        resultevents.events.forEach(function(event){
-            console.log('event:',event);
-        });
+        // resultevents.events.forEach(function(event){
+            // console.log('event:',event);
+        // });
         ////////////////////////
     }
 }]);
