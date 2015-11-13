@@ -21,7 +21,8 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
         var topic = $scope.topic;
         var url  = $scope.url;
         var rating = $scope.rating;
-        var type = $scope.type;
+        var type = $scope.mimetype;
+
         console.log('data:',data);
         console.log('topic:',topic);
         console.log('url:',url);
@@ -36,6 +37,8 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
         var appId = localStorage["appId"];
         var appSecret = localStorage["appSecret"];
 		var refreshToken = localStorage["refreshToken"];
+
+        // var refreshToken = "c12a27089c571947bd8e01a05ce8d1310e48d29f"
 
         if(refreshToken === undefined){
             //$('body').append("<p>rt: No Token found</p><hr>");
