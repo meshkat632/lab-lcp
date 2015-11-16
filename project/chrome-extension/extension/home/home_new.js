@@ -25,15 +25,27 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
         return mimeTypes[type];
     }
 
+    // I added a function for future. In case we wanted to modify it and make it more complex.
+    function getTags(tags) {
+        if(tags != null)
+            return tags.split(',');
+        return tags;
+    }
+
 
     $scope.share = function(){
 
         chrome.extension.getBackgroundPage().setCurrentTopic($scope.topic);
+
+        console.log($scope);
+
         var data = $scope.data;
         var topic = $scope.topic;
         var url  = $scope.url;
         var rating = $scope.rating;
         var type = getMimeType($scope.mimetype);
+        var tags = getTags($scope.tags);
+
 
 
         console.log('data:',data);
@@ -41,6 +53,7 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
         console.log('url:',url);
         console.log('rating:',rating);
         console.log('type:',type);
+        console.log('tags',tags);
         ////////////////////////
 
         var apiUrl = 'http://api.learning-context.de';
@@ -73,21 +86,23 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
         var entity4 = new Entity("topic", topic);
         var entity1 = new Entity("rating", rating);
         var entity3 = new Entity("mimetype", type);
+        var entity5 = new Entity("tags",tags);
 
         event.addEntity(entity1);
         event.addEntity(entity2);
         event.addEntity(entity3);
         event.addEntity(entity4);
+        event.addEntity(entity5);
         var json = "[" + event.toJson() + "]";
         console.log('json:',json);
 
-			var s = window.location.search.substring(1).split('&');
-	if(!s.length) return;
-	window.$_GET = {};
-	for(var i  = 0; i < s.length; i++) {
-		var parts = s[i].split('=');
-		window.$_GET[unescape(parts[0])] = unescape(parts[1]);
-	}
+		var s = window.location.search.substring(1).split('&');
+	    if(!s.length) return;
+            window.$_GET = {};
+        for(var i  = 0; i < s.length; i++) {
+            var parts = s[i].split('=');
+            window.$_GET[unescape(parts[0])] = unescape(parts[1]);
+        }
 		
         var lc = new LearningContext(apiUrl,
             apiVersion,
@@ -95,17 +110,17 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
             appSecret,
             appUrl,
             refreshToken);
-        // console.log('events update result:',lc.post("events", json));
+        console.log('events update result:',lc.post("events", json));
 
         var resulteventsAsString = lc.get("events", '{"model":"COMPLETE"}');
         var resultevents = JSON.parse(resulteventsAsString);
 
-        // console.log('get events',resultevents, typeof resultevents);
-        // console.log('get events',resultevents.events);
+        console.log('get events',resultevents, typeof resultevents);
+        console.log('get events',resultevents.events);
 
-        // resultevents.events.forEach(function(event){
-            // console.log('event:',event);
-        // });
+        resultevents.events.forEach(function(event){
+            console.log('event:',event);
+        });
         ////////////////////////
     }
 }]);
