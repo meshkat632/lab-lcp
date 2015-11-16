@@ -45,6 +45,7 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
         var rating = $scope.rating;
         var type = getMimeType($scope.mimetype);
         var tags = getTags($scope.tags);
+        var source = "Rate A Page Chrome extension";
 
 
 
@@ -54,6 +55,7 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
         console.log('rating:',rating);
         console.log('type:',type);
         console.log('tags',tags);
+        console.log('Source',source);
         ////////////////////////
 
         var apiUrl = 'http://api.learning-context.de';
@@ -87,12 +89,14 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
         var entity1 = new Entity("rating", rating);
         var entity3 = new Entity("mimetype", type);
         var entity5 = new Entity("tags",tags);
+        var entity6 = new Entity("source",source);
 
         event.addEntity(entity1);
         event.addEntity(entity2);
         event.addEntity(entity3);
         event.addEntity(entity4);
         event.addEntity(entity5);
+        event.addEntity(entity6);
         var json = "[" + event.toJson() + "]";
         console.log('json:',json);
 
