@@ -13,7 +13,10 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
     });
     */
 
-    function getMimeType(type) {
+    function getMimeType(type, url) {
+
+        if(type==null)
+            return null;
         
         var mimeTypes = {};
         mimeTypes["PDF"] = "application/pdf";
@@ -22,14 +25,47 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
         mimeTypes["Text"] = "text/plain";
         mimeTypes["Webpage"] = "text/html";
 
+        if(url.indexOf("www.youtube.com") != -1)
+            return "media/youtube"
+
         return mimeTypes[type];
     }
 
     // I added a function for future. In case we wanted to modify it and make it more complex.
     function getTags(tags) {
-        if(tags != null)
+        if(tags != null) {
+            tags=tags.replace(/ /g,"");
             return tags.split(',');
-        return tags;
+        }
+        return null;
+    }
+
+    function toNumericRating(rate) {
+        switch(rate) {
+            case "Excellent":
+                return 5;
+                break;
+            case "Very Good":
+                return 4;
+                break;
+            case "Good":
+                return 3;
+                break;
+            case "Bad":
+                return 2;
+                break;
+            case "Very Bad":
+                return 1;
+                break;
+            default:
+                return 3;
+        }
+    }
+
+    function checkDescription(description) {
+        if(description == null)
+            return null;
+        return description;
     }
 
 
@@ -42,20 +78,22 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
         var data = $scope.data;
         var topic = $scope.topic;
         var url  = $scope.url;
-        var rating = $scope.rating;
-        var type = getMimeType($scope.mimetype);
+        var rating = toNumericRating($scope.rating);
+        var type = getMimeType($scope.mimetype, data);
         var tags = getTags($scope.tags);
         var source = "Rate A Page Chrome extension";
+        var description = checkDescription($scope.description);
 
 
 
-        console.log('data:',data);
+        console.log('url:',data);
         console.log('topic:',topic);
         console.log('url:',url);
         console.log('rating:',rating);
         console.log('type:',type);
-        console.log('tags',tags);
-        console.log('Source',source);
+        console.log('tags:',tags);
+        console.log('source:',source);
+        console.log('description:',description);
         ////////////////////////
 
         var apiUrl = 'http://api.learning-context.de';
@@ -79,7 +117,8 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
         }
 
 
-        var timestamp = moment().format('YYYY-MM-DD hh:mm:ss');
+        var timestamp = moment().format('YYYY-MM-DD HH:mm:ss');
+        // var timestamp = new Date().getTime();
         console.log('timestamp:', timestamp);
         //$action, $created_at, $platform, $type, $minor, $session
         var event = new Event("START", timestamp , "WEBBASED", "PRIVATE", "RATEPAGE");
@@ -90,6 +129,7 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
         var entity3 = new Entity("mimetype", type);
         var entity5 = new Entity("tags",tags);
         var entity6 = new Entity("source",source);
+        var entity7 = new Entity("description", description);
 
         event.addEntity(entity1);
         event.addEntity(entity2);
@@ -97,6 +137,7 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
         event.addEntity(entity4);
         event.addEntity(entity5);
         event.addEntity(entity6);
+        event.addEntity(entity7);
         var json = "[" + event.toJson() + "]";
         console.log('json:',json);
 
@@ -108,23 +149,23 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
             window.$_GET[unescape(parts[0])] = unescape(parts[1]);
         }
 		
-        var lc = new LearningContext(apiUrl,
-            apiVersion,
-            appId,
-            appSecret,
-            appUrl,
-            refreshToken);
-        console.log('events update result:',lc.post("events", json));
+        // var lc = new LearningContext(apiUrl,
+        //     apiVersion,
+        //     appId,
+        //     appSecret,
+        //     appUrl,
+        //     refreshToken);
+        // console.log('events update result:',lc.post("events", json));
 
-        var resulteventsAsString = lc.get("events", '{"model":"COMPLETE"}');
-        var resultevents = JSON.parse(resulteventsAsString);
+        // var resulteventsAsString = lc.get("events", '{"model":"COMPLETE"}');
+        // var resultevents = JSON.parse(resulteventsAsString);
 
-        console.log('get events',resultevents, typeof resultevents);
-        console.log('get events',resultevents.events);
+        // console.log('get events',resultevents, typeof resultevents);
+        // console.log('get events',resultevents.events);
 
-        resultevents.events.forEach(function(event){
-            console.log('event:',event);
-        });
+        // resultevents.events.forEach(function(event){
+        //     console.log('event:',event);
+        // });
         ////////////////////////
     }
 }]);
