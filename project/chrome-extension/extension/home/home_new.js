@@ -149,13 +149,13 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
             window.$_GET[unescape(parts[0])] = unescape(parts[1]);
         }
 		
-        // var lc = new LearningContext(apiUrl,
-        //     apiVersion,
-        //     appId,
-        //     appSecret,
-        //     appUrl,
-        //     refreshToken);
-        // console.log('events update result:',lc.post("events", json));
+        var lc = new LearningContext(apiUrl,
+            apiVersion,
+            appId,
+            appSecret,
+            appUrl,
+            refreshToken);
+        console.log('events update result:',lc.post("events", json));
 
         // var resulteventsAsString = lc.get("events", '{"model":"COMPLETE"}');
         // var resultevents = JSON.parse(resulteventsAsString);
