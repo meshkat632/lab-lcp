@@ -11,7 +11,7 @@
     "page": "background/background.html",
     "persistent": true
   },
-  "options_page": "options/options.html",
+  "options_page": "options/options-new.html",
   "browser_action": {
     "default_title": "rating page",
     "default_icon": "assets/research-icon.png",

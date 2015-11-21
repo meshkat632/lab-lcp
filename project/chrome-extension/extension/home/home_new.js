@@ -1,7 +1,17 @@
 angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','$window','$location','$timeout',function ($scope, $interval, $window,$location,$timeout) {
 
-    chrome.extension.getBackgroundPage().getCurrentUrl(function(url, topic){
+    chrome.extension.getBackgroundPage().getCurrentUrl(function(url, topic, isConnected){
         console.log('url:',url);
+
+        if(!isConnected){
+            $scope.message ='Learning context connection is not.';
+            $scope.state = 'not_connected';
+            $scope.$apply();
+            return;
+        }else {
+            $scope.state = 'connected';
+        }
+
         $scope.data = url;
         $scope.topic = topic;
         $scope.$apply();
@@ -68,8 +78,11 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
         return description;
     }
 
-
+    $scope.showButton = true;
     $scope.share = function(){
+
+        $scope.showButton = false;
+        $scope.message ='Trying to submit data..';
 
         chrome.extension.getBackgroundPage().setCurrentTopic($scope.topic);
 
@@ -148,13 +161,21 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
             var parts = s[i].split('=');
             window.$_GET[unescape(parts[0])] = unescape(parts[1]);
         }
-		
+
+        /*
         var lc = new LearningContext(apiUrl,
             apiVersion,
             appId,
             appSecret,
             appUrl,
             refreshToken);
+        */
+
+
+        var lc = chrome.extension.getBackgroundPage().getLcObject();
+        lc.post("events", json);
+
+        $scope.message = 'The rating data is saved.';
         console.log('events update result:',lc.post("events", json));
 
         // var resulteventsAsString = lc.get("events", '{"model":"COMPLETE"}');
