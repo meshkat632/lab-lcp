@@ -2,8 +2,11 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
 
     chrome.extension.getBackgroundPage().getCurrentUrl(function(url, topic, isConnected){
         console.log('url:',url);
+		console.log('topic:',topic);
+		console.log('isConnected:',isConnected);
+		console.log('Refresh Token:',localStorage["refreshToken"]);
 
-        if(!isConnected){
+        if(localStorage["refreshToken"] === undefined){
             $scope.message ='Learning context connection is not.';
             $scope.state = 'not_connected';
             $scope.$apply();
