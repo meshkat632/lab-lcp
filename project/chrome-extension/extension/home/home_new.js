@@ -1,8 +1,28 @@
 angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','$window','$location','$timeout',function ($scope, $interval, $window,$location,$timeout) {
 
-    chrome.extension.getBackgroundPage().getCurrentUrl(function(url, topic, isConnected){
+    var result;
+	
+	var code = 'var meta = document.querySelector("meta[name=\'description\']");' + 
+           'if (meta) meta = meta.getAttribute("content");' +
+           '({' +
+           '    title: document.title,' +
+           '    description: meta || ""' +
+           '});';
+	chrome.tabs.executeScript({
+				code: code
+			}, function(results) {
+				if (!results) {
+					console.log('Error Results:', results);
+					return;
+				}
+				result = results[0];
+				console.log('Result Title:', result.title);
+				console.log('Result Description:', result.description);
+			});
+	
+	chrome.extension.getBackgroundPage().getCurrentUrl(function(url, topic, isConnected){
         console.log('url:',url);
-
+		console.log('result in currentUrl:', result);
         if(!isConnected){
             $scope.message ='Learning context connection is not.';
             $scope.state = 'not_connected';
@@ -11,9 +31,10 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
         }else {
             $scope.state = 'connected';
         }
-
+				
         $scope.data = url;
-        $scope.topic = topic;
+        $scope.topic = result.title;
+		$scope.description = result.description;
         $scope.$apply();
     });
 
@@ -22,7 +43,7 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
         chrome.extension.getBackgroundPage().setCurrentTopic($scope.topic);
     });
     */
-
+	
     function getMimeType(type, url) {
 
         if(type==null)
@@ -39,15 +60,6 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
             return "media/youtube"
 
         return mimeTypes[type];
-    }
-
-    // I added a function for future. In case we wanted to modify it and make it more complex.
-    function getTags(tags) {
-        if(tags != null) {
-            tags=tags.replace(/ /g,"");
-            return tags.split(',');
-        }
-        return null;
     }
 
     function toNumericRating(rate) {
