@@ -2,7 +2,7 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
 
     var result;
 	
-	var code = 'var meta = document.querySelector("meta[name=\'description\']");' + 
+	var code = 'var meta = document.querySelector("meta[name=\'description\'],META[NAME=\'DESCRIPTION\'],meta[name=\'Description\']");' + 
            'if (meta) meta = meta.getAttribute("content");' +
            '({' +
            '    title: document.title,' +
@@ -33,9 +33,9 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
         }
 				
         $scope.data = url;
-        $scope.topic = topic;
-		$scope.description = result.title;
-		$scope.tags = result.description;
+        $scope.topic = result.title;
+		$scope.description = result.description;
+		//$scope.tags = result.description;
         $scope.$apply();
     });
 
