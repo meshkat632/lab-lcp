@@ -33,8 +33,9 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
         }
 				
         $scope.data = url;
-        $scope.topic = result.title;
-		$scope.description = result.description;
+        $scope.topic = topic;
+		$scope.description = result.title;
+		$scope.tags = result.description;
         $scope.$apply();
     });
 
