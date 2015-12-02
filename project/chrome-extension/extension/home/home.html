@@ -81,25 +81,13 @@
                         <div class="form-group">
                             <label for="inputPassword3" class="col-sm-3 control-label">Ratings</label>
                             <div class="col-sm-9">
-                                <select class="form-control" id="rating" ng-model="rating">
-                                    <option>Excellent</option>
-                                    <option>Very Good</option>
-                                    <option>Good</option>
-                                    <option>Bad</option>
-                                    <option>Very Bad</option>
-                                </select>
+                                <select class="form-control" ng-model="rating" ng-options="rating.name for rating in ratings track by rating.name"></select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="inputPassword3" class="col-sm-3 control-label">Type</label>
                             <div class="col-sm-9">
-                                <select class="form-control" id="mimetype" ng-model="mimetype">
-                                    <option>Webpage</option>
-                                    <option>PDF</option>
-                                    <option>Video</option>
-                                    <option>Text</option>
-                                    <option>Audio</option>
-                                </select>
+                                <select class="form-control" ng-model="mimetype" ng-options="mimetype.name for mimetype in mimetypes track by mimetype.name"></select>
                             </div>
                         </div>
                         <div class="form-group">

@@ -2,7 +2,7 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
 
     var result;
 	
-	var code = 'var meta = document.querySelector("meta[name=\'description\'],META[NAME=\'DESCRIPTION\'],meta[name=\'Description\']");' + 
+	var code = 'var meta = document.querySelector("meta[name=\'description\'],META[NAME=\'DESCRIPTION\'],meta[name=\'Description\'],meta[name=\'title\'],META[NAME=\'TITLE\'],meta[name=\'Title\'],meta[name=\'keywords\'],META[NAME=\'KEYWORDS\'],meta[name=\'Keywords\']");' + 
            'if (meta) meta = meta.getAttribute("content");' +
            '({' +
            '    title: document.title,' +
@@ -26,6 +26,7 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
         if(!isConnected){
             $scope.message ='Learning context connection is not.';
             $scope.state = 'not_connected';
+			$scope.tags = '';
             $scope.$apply();
             return;
         }else {
@@ -35,8 +36,14 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
         $scope.data = url;
         $scope.topic = result.title;
 		$scope.description = result.description;
-		//$scope.tags = result.description;
-        $scope.$apply();
+		$scope.tags = result.description;
+		$scope.mimetypes = [{name: 'Webpage'}, {name: 'PDF'}, {name: 'Video'}, {name: 'Text'}, {name: 'Audio'}];
+		$scope.ratings = [{name: 'Excellent'}, {name: 'Very Good'}, {name: 'Good'}, {name: 'Bad'}, {name: 'Very Bad'}];
+		var tempUrl = url;
+		var mimeTypeId = setMimeType(tempUrl);
+		$scope.mimetype = $scope.mimetypes[mimeTypeId];
+		$scope.rating = $scope.ratings[2];
+		$scope.$apply();
     });
 
     /*
@@ -45,10 +52,16 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
     });
     */
 	
+	function setMimeType(url){
+		if(url.substr(url.length - 3) === "pdf")	return 1;
+		if(url.indexOf("www.youtube.com") != -1)	return 2;
+		if(url.substr(url.length - 4) === "mpeg" || url.substr(url.length - 3) === "mpg" || url.substr(url.length - 3) === "avi")	return 2;
+		if(url.substr(url.length - 4) === "docx" || url.substr(url.length - 3) === "doc" || url.substr(url.length - 3) === "txt")	return 3;
+		if(url.substr(url.length - 3) === "mp3")	return 4;
+		return 0;
+	}
+	
     function getMimeType(type, url) {
-
-        if(type==null)
-            return null;
         
         var mimeTypes = {};
         mimeTypes["PDF"] = "application/pdf";
@@ -56,9 +69,9 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
         mimeTypes["Audio"] = "media/audio";
         mimeTypes["Text"] = "text/plain";
         mimeTypes["Webpage"] = "text/html";
-
+		
         if(url.indexOf("www.youtube.com") != -1)
-            return "media/youtube"
+            return "media/youtube";
 
         return mimeTypes[type];
     }
@@ -106,7 +119,7 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
         var url  = $scope.url;
         var rating = toNumericRating($scope.rating);
         var type = getMimeType($scope.mimetype, data);
-        var tags = getTags($scope.tags);
+        var tags = $scope.tags;
         var source = "Rate A Page Chrome extension";
         var description = checkDescription($scope.description);
 
