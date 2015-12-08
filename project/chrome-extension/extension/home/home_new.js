@@ -1,7 +1,8 @@
 angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','$window','$location','$timeout',function ($scope, $interval, $window,$location,$timeout) {
 
     var result;
-	
+	var tempType;
+	var tempRating = 3;
 	var code = 'var meta = document.querySelector("meta[name=\'description\'],META[NAME=\'DESCRIPTION\'],meta[name=\'Description\'],meta[name=\'title\'],META[NAME=\'TITLE\'],meta[name=\'Title\'],meta[name=\'keywords\'],META[NAME=\'KEYWORDS\'],meta[name=\'Keywords\']");' + 
            'if (meta) meta = meta.getAttribute("content");' +
            '({' +
@@ -42,10 +43,21 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
 		var tempUrl = url;
 		var mimeTypeId = setMimeType(tempUrl);
 		$scope.mimetype = $scope.mimetypes[mimeTypeId];
+		tempType = $scope.mimetypes[mimeTypeId];
 		$scope.rating = $scope.ratings[2];
 		$scope.$apply();
     });
 
+	$scope.changedMimeType=function(item){
+		console.log('ItemName', item.name);
+		tempType = getMimeType(item.name, $scope.data);
+	}
+	
+		$scope.changedRating=function(item2){
+		console.log('RatingItemName', item2.name);
+		tempRating = toNumericRating(item2.name);
+	}
+	
     /*
     $scope.$watch('topic', function(){
         chrome.extension.getBackgroundPage().setCurrentTopic($scope.topic);
@@ -62,21 +74,26 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
 	}
 	
     function getMimeType(type, url) {
-        
-        var mimeTypes = {};
-        mimeTypes["PDF"] = "application/pdf";
-        mimeTypes["Video"] = "media/video";
-        mimeTypes["Audio"] = "media/audio";
-        mimeTypes["Text"] = "text/plain";
-        mimeTypes["Webpage"] = "text/html";
+		console.log('type', type);
+        if(type === 'PDF') return "application/pdf";
+        if (type === 'Video') return "media/video";
+        if (type === 'Audio') return "media/audio";
+        if (type === 'Text') return "text/plain";
+        if(type === 'Webpage') return "text/html";
+		if(type === 'application/pdf') return "application/pdf";
+        if (type === 'media/video') return "media/video";
+        if (type === 'media/audio') return "media/audio";
+        if (type === 'text/plain') return "text/plain";
+        if(type === 'text/html') return "text/html";
 		
         if(url.indexOf("www.youtube.com") != -1)
             return "media/youtube";
-
-        return mimeTypes[type];
+				
+        return "text/html";
     }
 
     function toNumericRating(rate) {
+		console.log('toNumericRating', rate);
         switch(rate) {
             case "Excellent":
                 return 5;
@@ -91,6 +108,21 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
                 return 2;
                 break;
             case "Very Bad":
+                return 1;
+                break;
+			case 5:
+                return 5;
+                break;
+            case 4:
+                return 4;
+                break;
+            case 3:
+                return 3;
+                break;
+            case 2:
+                return 2;
+                break;
+            case 1:
                 return 1;
                 break;
             default:
@@ -117,8 +149,10 @@ angular.module('myApp',[]).controller('homeController', ['$scope', '$interval','
         var data = $scope.data;
         var topic = $scope.topic;
         var url  = $scope.url;
-        var rating = toNumericRating($scope.rating);
-        var type = getMimeType($scope.mimetype, data);
+		console.log('temprating', toNumericRating(tempRating));
+        var rating = toNumericRating(tempRating);
+		console.log('temptype', tempType);
+        var type = getMimeType(tempType, data);
         var tags = $scope.tags;
         var source = "Rate A Page Chrome extension";
         var description = checkDescription($scope.description);
